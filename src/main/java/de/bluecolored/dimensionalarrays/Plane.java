@@ -25,9 +25,12 @@
 
 package de.bluecolored.dimensionalarrays;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import com.flowpowered.math.vector.Vector2i;
 
-public interface Plane<T> {
+public interface Plane<T> extends Iterable<T> {
 	
 	T get(int x, int y);
 	
@@ -82,6 +85,38 @@ public interface Plane<T> {
 	default Plane<T> getTranslatedView(Vector2i translation){
 		if (translation.equals(Vector2i.ZERO)) return this;
 		return new TranslatedView<>(this, getMin());
+	}
+	
+	/**
+	 * Returns an iterator that iterates over all elements in this {@link Plane} in xy-order
+	 */
+	@Override
+	default Iterator<T> iterator() {
+		return new Iterator<T>() {
+			private int x = getMinX(), y = getMinY();
+			
+			@Override
+			public boolean hasNext() {
+				return y <= getMaxX() || x <= getMaxY();
+			}
+
+			@Override
+			public T next() {
+				try {
+					T next = get(x, y);
+					
+					x++;
+					if (x > getMaxX()) {
+						y++;
+						x = getMinX();
+					}
+					
+					return next;
+				} catch (IndexOutOfBoundsException ex) {
+					throw new NoSuchElementException();
+				}
+			}
+		};
 	}
 	
 	static class TranslatedView<T> implements Plane<T> {

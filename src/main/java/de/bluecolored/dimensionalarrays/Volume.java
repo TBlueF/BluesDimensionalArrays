@@ -25,9 +25,12 @@
 
 package de.bluecolored.dimensionalarrays;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import com.flowpowered.math.vector.Vector3i;
 
-public interface Volume<T> {
+public interface Volume<T> extends Iterable<T> {
 
 	T get(int x, int y, int z);
 	
@@ -93,6 +96,43 @@ public interface Volume<T> {
 	default Volume<T> getTranslatedView(Vector3i translation){
 		if (translation.equals(Vector3i.ZERO)) return this;
 		return new TranslatedView<>(this, getMin());
+	}
+	
+	/**
+	 * Returns an iterator that iterates over all elements in this {@link Plane} in xyz-order
+	 */
+	@Override
+	default Iterator<T> iterator() {
+		return new Iterator<T>() {
+			private int x = getMinX(), y = getMinY(), z = getMinZ();
+			
+			@Override
+			public boolean hasNext() {
+				return z <= getMaxX() || y <= getMaxZ() || x <= getMaxY();
+			}
+
+			@Override
+			public T next() {
+				try {
+					T next = get(x, y, z);
+					
+					x++;
+					if (x > getMaxX()) {
+						y++;
+						x = getMinX();
+						
+						if (y > getMaxY()) {
+							z++;
+							y = getMinY();
+						}
+					}
+					
+					return next;
+				} catch (IndexOutOfBoundsException ex) {
+					throw new NoSuchElementException();
+				}
+			}
+		};
 	}
 	
 	static class TranslatedView<T> implements Volume<T> {
