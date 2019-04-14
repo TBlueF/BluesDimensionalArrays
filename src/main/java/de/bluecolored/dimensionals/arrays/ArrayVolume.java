@@ -23,24 +23,27 @@
  * SOFTWARE.
  */
 
-package de.bluecolored.dimensionalarrays;
+package de.bluecolored.dimensionals.arrays;
 
-import com.flowpowered.math.vector.Vector2i;
+import com.flowpowered.math.vector.Vector3i;
 
-public abstract class ArrayPlane<T> implements Plane<T> {
+import de.bluecolored.dimensionals.Volume;
 
-	private Vector2i min;
-	private Vector2i max;
+public abstract class ArrayVolume<T> implements Volume<T> {
+
+	private Vector3i min;
+	private Vector3i max;
 	
-	public ArrayPlane(Vector2i min, Vector2i max) {
+	public ArrayVolume(Vector3i min, Vector3i max) {
 		this.min = min;
 		this.max = max;
 	}
 	
-	int arrayIndex(int x, int y) {
+	int arrayIndex(int x, int y, int z) {
 		x -= getMinX();
 		y -= getMinY();
-		return x + getWidth() * y;
+		z -= getMinZ();
+		return x + getWidth() * y + getWidth() * getHeight() * z;
 	}
 
 	@Override
@@ -62,14 +65,24 @@ public abstract class ArrayPlane<T> implements Plane<T> {
 	public int getMaxY() {
 		return max.getY();
 	}
+
+	@Override
+	public int getMinZ() {
+		return min.getZ();
+	}
+
+	@Override
+	public int getMaxZ() {
+		return max.getZ();
+	}
 	
 	@Override
-	public Vector2i getMin() {
+	public Vector3i getMin() {
 		return min;
 	}
 	
 	@Override
-	public Vector2i getMax() {
+	public Vector3i getMax() {
 		return max;
 	}
 	

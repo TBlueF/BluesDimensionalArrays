@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-package de.bluecolored.dimensionalarrays;
+package de.bluecolored.dimensionals;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

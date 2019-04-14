@@ -23,45 +23,32 @@
  * SOFTWARE.
  */
 
-package de.bluecolored.dimensionalarrays;
+package de.bluecolored.dimensionals;
 
-import com.flowpowered.math.vector.Vector3i;
+import com.flowpowered.math.vector.Vector2i;
 
-public class IntegerArrayVolume extends ArrayVolume<Integer> {
-
-	private int[] data;
-	
-	public IntegerArrayVolume(Vector3i min, Vector3i max) {
-		super(min, max);
-		
-		int maxArrayIndex = arrayIndex(getMaxX(), getMaxY(), getMaxZ());
-		data = new int[maxArrayIndex + 1];
-	}
-	
-	@Override
-	public Integer get(int x, int y, int z) {
-		return getInteger(x, y, z);
-	}
-
-	public int getInteger(Vector3i pos) {
-		return getInteger(pos.getX(), pos.getY(), pos.getZ());
-	}
-
-	public int getInteger(int x, int y, int z) {
-		return data[arrayIndex(x, y, z)];
-	}
+public interface CharPlane extends Plane<Character> {
 
 	@Override
-	public void set(int x, int y, int z, Integer value) {
-		set(x, y, z, value.intValue());
+	default Character get(int x, int y) {
+		return getCharacter(x, y);
 	}
 
-	public void set(Vector3i pos, int value) {
-		set(pos.getX(), pos.getY(), pos.getZ(), value);
+	default char getCharacter(Vector2i pos) {
+		return getCharacter(pos.getX(), pos.getY());
 	}
-	
-	public void set(int x, int y, int z, int value) {
-		data[arrayIndex(x, y, z)] = value;
+
+	char getCharacter(int x, int y);
+
+	@Override
+	default void set(int x, int y, Character value) {
+		set(x, y, value.charValue());
 	}
-	
+
+	default void set(Vector2i pos, char value) {
+		set(pos.getX(), pos.getY(), value);
+	}
+
+	void set(int x, int y, char value);
+
 }

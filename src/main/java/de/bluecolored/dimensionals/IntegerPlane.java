@@ -23,45 +23,32 @@
  * SOFTWARE.
  */
 
-package de.bluecolored.dimensionalarrays;
+package de.bluecolored.dimensionals;
 
 import com.flowpowered.math.vector.Vector2i;
 
-public class FloatArrayPlane extends ArrayPlane<Float> {
-
-	private float[] data;
-	
-	public FloatArrayPlane(Vector2i min, Vector2i max) {
-		super(min, max);
-		
-		int maxArrayIndex = arrayIndex(getMaxX(), getMaxY());
-		data = new float[maxArrayIndex + 1];
-	}
+public interface IntegerPlane extends Plane<Integer> {
 	
 	@Override
-	public Float get(int x, int y) {
-		return getFloat(x, y);
+	default Integer get(int x, int y) {
+		return getInteger(x, y);
 	}
 	
-	public float getFloat(Vector2i pos) {
-		return getFloat(pos.getX(), pos.getY());
+	default int getInteger(Vector2i pos) {
+		return getInteger(pos.getX(), pos.getY());
 	}
 
-	public float getFloat(int x, int y) {
-		return data[arrayIndex(x, y)];
-	}
+	int getInteger(int x, int y);
 
 	@Override
-	public void set(int x, int y, Float value) {
-		set(x, y, value.floatValue());
+	default void set(int x, int y, Integer value) {
+		set(x, y, value.intValue());
 	}
 
-	public void set(Vector2i pos, float value) {
+	default void set(Vector2i pos, int value) {
 		set(pos.getX(), pos.getY(), value);
 	}
 	
-	public void set(int x, int y, float value) {
-		data[arrayIndex(x, y)] = value;
-	}
+	void set(int x, int y, int value);
 	
 }

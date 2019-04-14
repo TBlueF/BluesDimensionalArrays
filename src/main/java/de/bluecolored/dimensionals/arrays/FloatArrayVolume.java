@@ -23,45 +23,31 @@
  * SOFTWARE.
  */
 
-package de.bluecolored.dimensionalarrays;
+package de.bluecolored.dimensionals.arrays;
 
-import com.flowpowered.math.vector.Vector2i;
+import com.flowpowered.math.vector.Vector3i;
 
-public class IntegerArrayPlane extends ArrayPlane<Integer> {
+import de.bluecolored.dimensionals.FloatVolume;
 
-	private int[] data;
+public class FloatArrayVolume extends ArrayVolume<Float> implements FloatVolume {
+
+	private float[] data;
 	
-	public IntegerArrayPlane(Vector2i min, Vector2i max) {
+	public FloatArrayVolume(Vector3i min, Vector3i max) {
 		super(min, max);
 		
-		int maxArrayIndex = arrayIndex(getMaxX(), getMaxY());
-		data = new int[maxArrayIndex + 1];
-	}
-	
-	@Override
-	public Integer get(int x, int y) {
-		return getInteger(x, y);
-	}
-	
-	public int getInteger(Vector2i pos) {
-		return getInteger(pos.getX(), pos.getY());
-	}
-
-	public int getInteger(int x, int y) {
-		return data[arrayIndex(x, y)];
+		int maxArrayIndex = arrayIndex(getMaxX(), getMaxY(), getMaxZ());
+		data = new float[maxArrayIndex + 1];
 	}
 
 	@Override
-	public void set(int x, int y, Integer value) {
-		set(x, y, value.intValue());
+	public float getFloat(int x, int y, int z) {
+		return data[arrayIndex(x, y, z)];
 	}
 
-	public void set(Vector2i pos, int value) {
-		set(pos.getX(), pos.getY(), value);
-	}
-	
-	public void set(int x, int y, int value) {
-		data[arrayIndex(x, y)] = value;
+	@Override
+	public void set(int x, int y, int z, float value) {
+		data[arrayIndex(x, y, z)] = value;
 	}
 	
 }

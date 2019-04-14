@@ -23,30 +23,32 @@
  * SOFTWARE.
  */
 
-package de.bluecolored.dimensionalarrays;
+package de.bluecolored.dimensionals;
 
 import com.flowpowered.math.vector.Vector3i;
 
-public class ObjectArrayVolume<T> extends ArrayVolume<T> {
+public interface CharVolume extends Volume<Character> {
+	
+	@Override
+	default Character get(int x, int y, int z) {
+		return getCharacter(x, y, z);
+	}
 
-	private T[] data;
-	
-	@SuppressWarnings("unchecked")
-	public ObjectArrayVolume(Vector3i min, Vector3i max) {
-		super(min, max);
-		
-		int maxArrayIndex = arrayIndex(getMaxX(), getMaxY(), getMaxZ());
-		data = (T[]) new Object[maxArrayIndex + 1];
+	default char getCharacter(Vector3i pos) {
+		return getCharacter(pos.getX(), pos.getY(), pos.getZ());
 	}
-	
+
+	char getCharacter(int x, int y, int z);
+
 	@Override
-	public T get(int x, int y, int z) {
-		return data[arrayIndex(x, y, z)];
+	default void set(int x, int y, int z, Character value) {
+		set(x, y, z, value.charValue());
+	}
+
+	default void set(Vector3i pos, char value) {
+		set(pos.getX(), pos.getY(), pos.getZ(), value);
 	}
 	
-	@Override
-	public void set(int x, int y, int z, T value) {
-		data[arrayIndex(x, y, z)] = value;
-	}
+	void set(int x, int y, int z, char value);
 	
 }

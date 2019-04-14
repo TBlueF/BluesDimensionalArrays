@@ -23,45 +23,31 @@
  * SOFTWARE.
  */
 
-package de.bluecolored.dimensionalarrays;
+package de.bluecolored.dimensionals.arrays;
 
-import com.flowpowered.math.vector.Vector3i;
+import com.flowpowered.math.vector.Vector2i;
 
-public class FloatArrayVolume extends ArrayVolume<Float> {
+import de.bluecolored.dimensionals.LongPlane;
 
-	private float[] data;
+public class LongArrayPlane extends ArrayPlane<Long> implements LongPlane {
+
+	private long[] data;
 	
-	public FloatArrayVolume(Vector3i min, Vector3i max) {
+	public LongArrayPlane(Vector2i min, Vector2i max) {
 		super(min, max);
 		
-		int maxArrayIndex = arrayIndex(getMaxX(), getMaxY(), getMaxZ());
-		data = new float[maxArrayIndex + 1];
-	}
-	
-	@Override
-	public Float get(int x, int y, int z) {
-		return getFloat(x, y, z);
-	}
-
-	public float getFloat(Vector3i pos) {
-		return getFloat(pos.getX(), pos.getY(), pos.getZ());
-	}
-
-	public float getFloat(int x, int y, int z) {
-		return data[arrayIndex(x, y, z)];
+		int maxArrayIndex = arrayIndex(getMaxX(), getMaxY());
+		data = new long[maxArrayIndex + 1];
 	}
 
 	@Override
-	public void set(int x, int y, int z, Float value) {
-		set(x, y, z, value.floatValue());
+	public long getLong(int x, int y) {
+		return data[arrayIndex(x, y)];
 	}
 
-	public void set(Vector3i pos, float value) {
-		set(pos.getX(), pos.getY(), pos.getZ(), value);
-	}
-	
-	public void set(int x, int y, int z, float value) {
-		data[arrayIndex(x, y, z)] = value;
+	@Override
+	public void set(int x, int y, long value) {
+		data[arrayIndex(x, y)] = value;
 	}
 	
 }

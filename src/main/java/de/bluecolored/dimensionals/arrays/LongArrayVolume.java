@@ -23,45 +23,31 @@
  * SOFTWARE.
  */
 
-package de.bluecolored.dimensionalarrays;
+package de.bluecolored.dimensionals.arrays;
 
-import com.flowpowered.math.vector.Vector2i;
+import com.flowpowered.math.vector.Vector3i;
 
-public class ByteArrayPlane extends ArrayPlane<Byte> {
+import de.bluecolored.dimensionals.LongVolume;
 
-	private byte[] data;
+public class LongArrayVolume extends ArrayVolume<Long> implements LongVolume {
+
+	private long[] data;
 	
-	public ByteArrayPlane(Vector2i min, Vector2i max) {
+	public LongArrayVolume(Vector3i min, Vector3i max) {
 		super(min, max);
 		
-		int maxArrayIndex = arrayIndex(getMaxX(), getMaxY());
-		data = new byte[maxArrayIndex + 1];
-	}
-	
-	@Override
-	public Byte get(int x, int y) {
-		return getByte(x, y);
-	}
-	
-	public byte getByte(Vector2i pos) {
-		return getByte(pos.getX(), pos.getY());
-	}
-
-	public byte getByte(int x, int y) {
-		return data[arrayIndex(x, y)];
+		int maxArrayIndex = arrayIndex(getMaxX(), getMaxY(), getMaxZ());
+		data = new long[maxArrayIndex + 1];
 	}
 
 	@Override
-	public void set(int x, int y, Byte value) {
-		set(x, y, value.byteValue());
+	public long getLong(int x, int y, int z) {
+		return data[arrayIndex(x, y, z)];
 	}
 
-	public void set(Vector2i pos, byte value) {
-		set(pos.getX(), pos.getY(), value);
-	}
-	
-	public void set(int x, int y, byte value) {
-		data[arrayIndex(x, y)] = value;
+	@Override
+	public void set(int x, int y, int z, long value) {
+		data[arrayIndex(x, y, z)] = value;
 	}
 	
 }

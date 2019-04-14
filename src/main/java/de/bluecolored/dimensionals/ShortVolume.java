@@ -23,30 +23,32 @@
  * SOFTWARE.
  */
 
-package de.bluecolored.dimensionalarrays;
+package de.bluecolored.dimensionals;
 
-import com.flowpowered.math.vector.Vector2i;
+import com.flowpowered.math.vector.Vector3i;
 
-public class ObjectArrayPlane<T> extends ArrayPlane<T> {
-
-	private T[] data;
-	
-	@SuppressWarnings("unchecked")
-	public ObjectArrayPlane(Vector2i min, Vector2i max) {
-		super(min, max);
-		
-		int maxArrayIndex = arrayIndex(getMaxX(), getMaxY());
-		data = (T[]) new Object[maxArrayIndex + 1];
-	}
+public interface ShortVolume extends Volume<Short> {
 	
 	@Override
-	public T get(int x, int y) {
-		return data[arrayIndex(x, y)];
+	default Short get(int x, int y, int z) {
+		return getShort(x, y, z);
 	}
 
-	@Override
-	public void set(int x, int y, T value) {
-		data[arrayIndex(x, y)] = value;
+	default short getShort(Vector3i pos) {
+		return getShort(pos.getX(), pos.getY(), pos.getZ());
 	}
+
+	short getShort(int x, int y, int z);
+
+	@Override
+	default void set(int x, int y, int z, Short value) {
+		set(x, y, z, value.shortValue());
+	}
+
+	default void set(Vector3i pos, short value) {
+		set(pos.getX(), pos.getY(), pos.getZ(), value);
+	}
+	
+	void set(int x, int y, int z, short value);
 	
 }

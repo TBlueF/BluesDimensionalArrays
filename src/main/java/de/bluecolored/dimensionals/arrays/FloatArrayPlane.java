@@ -23,44 +23,30 @@
  * SOFTWARE.
  */
 
-package de.bluecolored.dimensionalarrays;
+package de.bluecolored.dimensionals.arrays;
 
 import com.flowpowered.math.vector.Vector2i;
 
-public class LongArrayPlane extends ArrayPlane<Long> {
+import de.bluecolored.dimensionals.FloatPlane;
 
-	private long[] data;
+public class FloatArrayPlane extends ArrayPlane<Float> implements FloatPlane {
+
+	private float[] data;
 	
-	public LongArrayPlane(Vector2i min, Vector2i max) {
+	public FloatArrayPlane(Vector2i min, Vector2i max) {
 		super(min, max);
 		
 		int maxArrayIndex = arrayIndex(getMaxX(), getMaxY());
-		data = new long[maxArrayIndex + 1];
-	}
-	
-	@Override
-	public Long get(int x, int y) {
-		return getLong(x, y);
-	}
-	
-	public long getLong(Vector2i pos) {
-		return getLong(pos.getX(), pos.getY());
+		data = new float[maxArrayIndex + 1];
 	}
 
-	public long getLong(int x, int y) {
+	@Override
+	public float getFloat(int x, int y) {
 		return data[arrayIndex(x, y)];
 	}
 
 	@Override
-	public void set(int x, int y, Long value) {
-		set(x, y, value.longValue());
-	}
-
-	public void set(Vector2i pos, long value) {
-		set(pos.getX(), pos.getY(), value);
-	}
-	
-	public void set(int x, int y, long value) {
+	public void set(int x, int y, float value) {
 		data[arrayIndex(x, y)] = value;
 	}
 	
