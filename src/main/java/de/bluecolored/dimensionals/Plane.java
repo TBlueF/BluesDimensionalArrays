@@ -97,7 +97,7 @@ public interface Plane<T> extends Iterable<T> {
 			
 			@Override
 			public boolean hasNext() {
-				return y <= getMaxX() || x <= getMaxY();
+				return y <= getMaxY() && x <= getMaxX();
 			}
 
 			@Override

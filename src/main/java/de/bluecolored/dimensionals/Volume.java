@@ -108,7 +108,7 @@ public interface Volume<T> extends Iterable<T> {
 			
 			@Override
 			public boolean hasNext() {
-				return z <= getMaxX() || y <= getMaxZ() || x <= getMaxY();
+				return z <= getMaxZ() && y <= getMaxY() && x <= getMaxX();
 			}
 
 			@Override
