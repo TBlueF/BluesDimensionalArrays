@@ -78,6 +78,18 @@ public interface Plane<T> extends Iterable<T> {
 		return new Vector2i(getWidth(), getHeight());
 	}
 	
+	default boolean contains(int x, int y) {
+		return 
+				x >= getMinX() &&
+				x <= getMaxX() &&
+				y >= getMinY() &&
+				y <= getMaxY();
+	}
+	
+	default boolean contains(Vector2i pos) {
+		return contains(pos.getX(), pos.getY());
+	}
+	
 	default Plane<T> getRelativeView(){
 		return getTranslatedView(getMin());
 	}

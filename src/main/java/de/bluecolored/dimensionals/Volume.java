@@ -89,6 +89,20 @@ public interface Volume<T> extends Iterable<T> {
 		return new Vector3i(getWidth(), getHeight(), getDepth());
 	}
 	
+	default boolean contains(int x, int y, int z) {
+		return 
+				x >= getMinX() &&
+				x <= getMaxX() &&
+				y >= getMinY() &&
+				y <= getMaxY() &&
+				z >= getMinZ() &&
+				z <= getMaxZ();
+	}
+	
+	default boolean contains(Vector3i pos) {
+		return contains(pos.getX(), pos.getY(), pos.getZ());
+	}
+	
 	default Volume<T> getRelativeView(){
 		return getTranslatedView(getMin());
 	}
