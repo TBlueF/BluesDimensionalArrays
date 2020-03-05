@@ -131,6 +131,14 @@ public interface Plane<T> extends Iterable<T> {
 		};
 	}
 	
+	default void filter(PlaneFilter<T> filter) {
+		for (int x = getMinX(); x <= getMaxX(); x++) {
+			for (int y = getMinY(); y <= getMaxY(); y++) {
+					set(x, y, filter.apply(x, y, get(x, y)));
+			}
+		}
+	}
+	
 	static class TranslatedView<T> implements Plane<T> {
 
 		private Plane<T> viewOrigin;

@@ -149,6 +149,16 @@ public interface Volume<T> extends Iterable<T> {
 		};
 	}
 	
+	default void filter(VolumeFilter<T> filter) {
+		for (int x = getMinX(); x <= getMaxX(); x++) {
+			for (int y = getMinY(); y <= getMaxY(); y++) {
+				for (int z = getMinZ(); z <= getMaxZ(); z++) {
+					set(x, y, z, filter.apply(x, y, z, get(x, y, z)));
+				}
+			}
+		}
+	}
+	
 	static class TranslatedView<T> implements Volume<T> {
 
 		private Volume<T> viewOrigin;
